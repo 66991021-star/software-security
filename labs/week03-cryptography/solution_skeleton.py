@@ -1,5 +1,5 @@
 """
-Week 3 — FIX the misuse here. Fill in the TODOs.
+Week 3 — complete secure reference (legacy filename). The student TODO is in migrate.py.
 pip install argon2-cffi pycryptodome
 """
 import os
@@ -31,7 +31,12 @@ def reset_token() -> str:
     return secrets.token_urlsafe(16)
 
 if __name__ == "__main__":
-    key = bytes.fromhex(os.environ.get("ENC_KEY_HEX", os.urandom(32).hex()))
+    key_hex = os.environ.get("ENC_KEY_HEX")
+    if not key_hex:
+        raise SystemExit(
+            "ENC_KEY_HEX is not set. Run: export ENC_KEY_HEX=$(openssl rand -hex 32)"
+        )
+    key = bytes.fromhex(key_hex)
     h = store_password("password123")
     print("argon2 ok:", verify_password(h, "password123"))
     print("gcm:", encrypt_gcm(b"secret", key))

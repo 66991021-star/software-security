@@ -1,11 +1,16 @@
 services:
   crypto-lab:
-    image: python:3.12-slim
+    build: .
+    image: kosen-swsec-week03:local
+    network_mode: none
     working_dir: /lab
     volumes:
       - ./:/lab
+    environment:
+      # Sanity-check only (Task 0/environment setup). Task 6 has you export
+      # your own real key with `openssl rand -hex 32` — never reuse this one.
+      - ENC_KEY_HEX=000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f
     command: >
-      bash -c "pip install --no-cache-dir pycryptodome argon2-cffi &&
-               python vulnerable_crypto.py &&
-               echo '--- now fix it in solution_skeleton.py ---' &&
+      sh -c "python vulnerable_crypto.py &&
+               echo '--- secure reference; student TODO is in migrate.py ---' &&
                python solution_skeleton.py"
