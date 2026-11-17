@@ -24,8 +24,7 @@ def login(user: str, pw: str) -> bool:
     if is_legacy_md5(record):
         if not hmac.compare_digest(hashlib.md5(pw.encode()).hexdigest(), record):
             return False
-        # TODO (Task 5): the password is correct, and only right now do we hold the plaintext.
-        # Replace this user's MD5 record with an argon2id hash of pw. One line: db[user] = ...
+        db[user] = ph.hash(pw)
         return True
     try:
         return ph.verify(record, pw)
