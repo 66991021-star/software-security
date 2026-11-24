@@ -2,7 +2,7 @@
 marp: true
 theme: default
 paginate: true
-header: "Software Security · Week 12"
+header: "Software Security 2 · 02005094 · Week 12"
 ---
 
 <!-- Current KOSEN class: 150 minutes = quiz/review10 + brief15 + shared practical100 + debrief20 + capture5. Full deck is pre-class/reference; select only the short live explanation. Both versions: common60 plus Conventional40 OR AIR20/10/10. Viva verifies existing work, no extra score or automatic-zero gate. -->
@@ -10,7 +10,7 @@ header: "Software Security · Week 12"
 
 # Week 12
 ## Software Supply-Chain Security
-Software Security · Nutthakorn Chalaemwongwan
+Software Security 2 · Tuesday 19 January 2027, 09:05–11:50
 
 <!-- Hook: ask how many lines of code they wrote in their last project vs how many they shipped. The gap is dependencies — and that's the attack surface this week. One poisoned package = thousands of victims. ~2 min. -->
 
@@ -105,7 +105,7 @@ pip-audit                                                          # vs PyPI adv
 
 ![Software Composition Analysis turns requirements.txt into a remediation worklist: the pinned-but-outdated deps (Flask 1.1.4, Werkzeug 1.0.1, urllib3 1.26.4, requests 2.25.1) feed two scanners — trivy fs (matches versions to the CVE database) and pip-audit (checks PyPI advisories) — neither of which reads your code, both read your dependency list. The output is one row per vulnerable package with the version that fixes it: Flask → 2.3.2 (CVE-2023-30861, HIGH), Werkzeug → 3.0.3 (CVE-2024-34069, HIGH), urllib3 → 1.26.17 (CVE-2023-43804, HIGH). The contrast: SAST reads the code you wrote and finds your bugs; SCA reads the versions you depend on and finds other people's known, already-patched bugs, so the fix is a version bump, not a code change.](img/sca-worklist.svg)
 
-<!-- Hands-on tooling (ties to W2 SCA). This lab is pure Python — no npm project — so it's trivy fs + pip-audit, not npm audit/dependency-check. Run trivy live on the project — it lists CVEs + the fixed version. The diagram's one job: SCA ≠ SAST. SAST = your code, your bugs; SCA = your versions, other people's known bugs, fix = bump the pin. Don't read the worklist rows aloud — they'll run it live; point at the "→ FIXED IN" column and say "that's the whole remediation, a version number." Q6 of the quiz asks for one real vulnerable dependency they found + remediation. ~4 min. -->
+<!-- Hands-on tooling (ties to W2 SCA). This lab is pure Python — no npm project — so it's trivy fs + pip-audit, not npm audit/dependency-check. Run trivy live on the project — it lists CVEs + the fixed version. The diagram's one job: SCA ≠ SAST. SAST = your code, your bugs; SCA = your versions, other people's known bugs, fix = bump the pin. Don't read the worklist rows aloud — they'll run it live; point at the "→ FIXED IN" column and say "that's the whole remediation, a version number." ~4 min. -->
 
 ---
 
@@ -252,15 +252,11 @@ Next week: Cloud & container security
 
 ---
 
-## Current class hand-in
+## This week's hand-in
 
-**Class:** quiz/review 10 + explanation/demo 15 + supervised practice 100 + debrief 20 + evidence capture 5 minutes. Prepare tools, images and access before class. The full reference tasks remain below; their standalone estimates are not an instruction to finish the entire bank during the class.
-
-**Assessment:** all students complete the shared practical **60/100** plus **one assigned version's 40/100**. Conventional uses the ordinary Part 2 questions (20) and Part 4 reflection (20). AIR-Sec uses Audit-the-AI (20), Explain-in-Plain-English (10) and Prompt Problem (10). The unassigned written version is reference practice, not an extra requirement. Each teaching worksheet contributes **2.5 course points**, making 12 individual worksheets worth 30 in total.
-
-Both versions submit their own commands/results and explanation, and complete the student patch and control tests where assigned. Personal flags are used only for an actually issued instance; a local demo flag alone does not demonstrate understanding. Viva/reproduction checks verify the existing work within its rubric: no additional points or automatic-zero gate.
-
-
-**100-minute core run sheet (time, not points):** Review SCA finding 20; resolver case 15; read/generate SBOM 20; student key-pin plus signature controls 30; hash/index control 15. The practical rubric is 20 + 20 + 20 = 60 points.
-
-Complete `trusted_key()` in `student_task.py`, then run `python3 check_student.py`. The supplied `signature-core/` packet contains a real RSA signature, a trusted public-key fingerprint, and an independently signed wrong-key control. Verification uses OpenSSL and no login. This is explicitly **key-based artifact verification**, not an OIDC/keyless-signing simulation. It demonstrates the key-trust prerequisite. Retain the real Cosign keyless/registry flow below as an instructor-prepared demo or extension; no external login or transparency-log publication is required for full worksheet marks. Prepare the SCA database, image and SBOM before class where downloads would consume the slot.
+- **Class:** Tuesday 19 January 2027, 09:05–11:50 (150 minutes): quiz 10 + explanation/demo 15 + practical 100 + debrief 20 + evidence 5
+- **Everyone (60 points):** the five core tasks: supplied SCA results, resolver case, SBOM, your `trusted_key()` control with the checker before (`FAILED`) and after (`OK`), and the hash/index control
+- **This week odd ID = Conventional** (Part 2 + Part 4, 40) · **even ID = AIR-Sec** (Audit-the-AI 20 + EiPE 10 + Prompt 10)
+- **Code link:** commit `student_task.py` to branch `wk12` in your fork
+- **Due:** Monday 25 January 2027, 23:59 · worksheet PDF to learn.zcr.ai/submit
+- Live scans and keyless signing (`sca_scan.sh`, `sign.sh`) are optional extensions; no flag this week
